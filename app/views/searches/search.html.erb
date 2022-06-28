@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="center-block">
+   <%= render 'searches/serach' %>
+  </div>
+    <table class="table table-hover table-inverse">
+     
+      <!--検索対象モデルがUserの時 -->
+      <% if @range == "User" %>
+      <h1>Users search for "test"</h1>
+       <thead>
+         <tr>
+          <th>image</th>
+          <th>Name</th>
+          <th>&nbsp;</th>
+         </tr>
+        </thead>
+        <tbody>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= image_tag user.get_profile_image(100,100) %></td>
+              <td><%= user.name %></td>
+              <td><%= link_to 'Show', user_path(user), class: "user_#{user.id}" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      <% else %>
+        <!--検索対象モデルがUserではない時(= 検索対象モデルがBookの時) -->
+      <h2>Books search for "test"</h2>
+        <thead>
+         <tr>
+          <th>&nbsp;</th>
+          <th>Title</th>
+          <th>Opinion</th>
+         </tr>
+        </thead>
+        <tbody>
+          <% @books.each do |book| %>
+            <tr>
+              <td><%= image_tag book.user.get_profile_image(100,100) %></td>
+              <td><%= book.title %></td>
+              <td><%= book.body %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      <% end %>
+    </table>
+</div>
