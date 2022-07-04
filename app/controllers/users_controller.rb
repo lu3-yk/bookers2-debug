@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   def following?(user)
    followings.include?(user)
   end
-
+  
   def show
     @user = User.find(params[:id])
     @books = @user.books

@@ -43,6 +43,11 @@ before_action :correct_user, only: [:edit, :update]
     @book.destroy
     redirect_to books_path
   end
+  
+  def weekly_rank
+  @books = Book.last_week
+  end
+
 
   private
 
