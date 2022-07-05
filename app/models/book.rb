@@ -5,15 +5,13 @@ class Book < ApplicationRecord
   validates :body,presence:true,length:{maximum:200}
   
    has_many :favorites, dependent: :destroy
+   has_many :favorited_users, through: :favorites, source: :user
    has_many :book_comments, dependent: :destroy
 
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)
   end
   
-  def self.last_week # メソッド名は何でも良いです
-  Book.joins(:favorites).where(favorites: { created_at:　0.days.ago.prev_week..0.days.ago.prev_week(:sunday)}).group(:id).order("count(*) desc")
-  end
   
   def self.looks(search, word)
     if search == "perfect_match"

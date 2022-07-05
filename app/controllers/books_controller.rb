@@ -9,10 +9,17 @@ before_action :correct_user, only: [:edit, :update]
     @book_comment = BookComment.new
   end
 
+  
   def index
-    @books = Book.all
+    to  = Time.current.at_end_of_day
+    from  = (to - 6.day).at_beginning_of_day
+    @books = Book.all.sort {|a,b| 
+      b.favorites.where(created_at: from...to).size <=> 
+      a.favorites.where(created_at: from...to).size
+    }
     @book = Book.new
   end
+  
 
   def create
     @book = Book.new(book_params)
@@ -44,10 +51,6 @@ before_action :correct_user, only: [:edit, :update]
     redirect_to books_path
   end
   
-  def weekly_rank
-  @books = Book.last_week
-  end
-
 
   private
 

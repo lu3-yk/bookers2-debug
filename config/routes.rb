@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'chats/show'
+  get 'rooms/create'
+  get 'rooms/show'
   get 'relationships/followings'
   get 'relationships/followers'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -8,7 +11,9 @@ Rails.application.routes.draw do
   get "home/about"=>"homes#about"
   get "search" => "searches#search"
   post "search_result" => "search_result#search"
-  
+  get 'chat/:id', to: 'chats#show', as: 'chat'
+  resources :chats, only: [:create]
+
   resources :users do
     resource :relationships, only: [:create, :destroy]
     get 'followings' => 'relationships#followings', as: 'followings'
@@ -22,7 +27,8 @@ Rails.application.routes.draw do
   
   end 
   
-  
+  resources :messages, only: [:create]
+  resources :rooms, only: [:create,:show] 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
 end
