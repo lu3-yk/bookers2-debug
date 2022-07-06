@@ -40,5 +40,7 @@
          </tr>
       </table>
          <%= render 'book_comments/form', book: @book, book_comment: @book_comment %>
+      <%= current_user.books.where('created_at > ?', Date.today).count %>
+ 
   </div>
 </div>
