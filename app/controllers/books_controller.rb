@@ -7,14 +7,18 @@ before_action :correct_user, only: [:edit, :update]
     @user=@book.user
     @books=Book.new
     @book_comment = BookComment.new
+    @book_detail = Book.find(params[:id])
+     unless ViewCount.find_by(user_id: current_user.id, book_id: @book_detail.id)
+      current_user.view_counts.create(book_id: @book_detail.id)
+     end
   end
 
   
   def index
-    to  = Time.current.at_end_of_day
-    from  = (to - 6.day).at_beginning_of_day
-    @books = Book.all.sort {|a,b| 
-      b.favorites.where(created_at: from...to).size <=> 
+    to  = Time.current.at_end_of_day #toはなんでもいいイコールの後に入れたいものを入れるため。Timeというメソッドを使う。.current.at_end_of_day（その日の終わり）するとその後に引き出せる
+    from  = (to - 6.day).at_beginning_of_day#fromではto-6.dayat_beginning_of_dayで−６前の始まりから
+    @books = Book.all.sort {|a,b| #book.allの中からsortで比較して比べる
+      b.favorites.where(created_at: from...to).size <=> #fromの始まりからtoの終わりまで
       a.favorites.where(created_at: from...to).size
     }
     @book = Book.new
