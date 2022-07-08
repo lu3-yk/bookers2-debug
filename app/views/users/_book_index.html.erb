@@ -77,8 +77,8 @@
   
   <canvas id="myChart" width="300" height="100"> </canvas>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script> 
+    $(document).on('turbolinks:load', function() { 
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',                      
@@ -92,6 +92,7 @@
                 fill: false
             }]
         },
+    });
     });
 </script>
   
