@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :view_counts, dependent: :destroy
 
   has_many :books, dependent: :destroy
+  has_many :group_users
   has_one_attached :profile_image
   has_many :favorites, dependent: :destroy
   has_many :book_comments, dependent: :destroy
@@ -48,18 +49,16 @@ class User < ApplicationRecord
     followings.include?(user)
   end
  
- def self.looks(search, word)
-    if search == "perfect_match"
-      @user = User.where("name LIKE?", "#{word}")
-    elsif search == "forward_match"
-      @user = User.where("name LIKE?","#{word}%")
-    elsif search == "backward_match"
-      @user = User.where("name LIKE?","%#{word}")
-    elsif search == "partial_match"
-      @user = User.where("name LIKE?","%#{word}%")
+def self.search_for(content, method)
+    if method == 'perfect'
+      User.where(name: content)
+    elsif method == 'forward'
+      User.where('name LIKE ?', content + '%')
+    elsif method == 'backward'
+      User.where('name LIKE ?', '%' + content)
     else
-      @user = User.all
+      User.where('name LIKE ?', '%' + content + '%')
     end
- end 
+end
 
 end

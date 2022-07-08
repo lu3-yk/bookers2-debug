@@ -18,7 +18,7 @@ before_action :correct_user, only: [:edit, :update]
     to  = Time.current.at_end_of_day #toはなんでもいいイコールの後に入れたいものを入れるため。Timeというメソッドを使う。.current.at_end_of_day（その日の終わり）するとその後に引き出せる
     from  = (to - 6.day).at_beginning_of_day#fromではto-6.dayat_beginning_of_dayで−６前の始まりから
     @books = Book.all.sort {|a,b| #book.allの中からsortで比較して比べる
-      b.favorites.where(created_at: from...to).size <=> #fromの始まりからtoの終わりまで
+      b.favorites.where(created_at: from...to).size <=> #fromの始まりからtoの終わりまで.sizeとすることで順番位並び替えて切れる、whereがデータベースから引数を引き出す
       a.favorites.where(created_at: from...to).size
     }
     @book = Book.new
