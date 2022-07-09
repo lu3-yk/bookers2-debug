@@ -6,29 +6,13 @@
             <table class="message table table table-borderless">
               <thead>
                 <tr>
-                  <th style="text-align: left; font-size: 20px;"><%= current_user.name %></th>
-                  <th style="text-align: right; font-size: 20px;"><%= @user.name %></th>
+                  <th style="text-align: left; font-size: 20px;"><%= image_tag @user.get_profile_image(30,30) %><%= @user.name %></th>
+                  <th style="text-align: right; font-size: 20px;"><%= current_user.name %><%= image_tag current_user.get_profile_image(30,30) %></th>
                 </tr>
               </thead>
-              <% @chats.each do |chat| %>
-                <% if chat.user_id == current_user.id %>
-                <tbody>
-                  <tr>
-                    <th>
-                      <p style="text-align: left;"><%= chat.message %></p>
-                    </th>
-                    <th></th>
-                  </tr>
-                <% else %>
-                  <tr>
-                    <th></th>
-                    <th>
-                      <p style="text-align: right;"><%= chat.message %></p>
-                    </th>
-                  </tr>
+              <tbody class = 'message'>
+             <%= render 'cheates',chats: @chats %>
                 </tbody>
-                <% end %>
-              <% end %>
             </table>
 
             <%= form_with model: @chat, data: {remote: true} do |f| %>
