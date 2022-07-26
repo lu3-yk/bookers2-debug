@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  
+  devise_for :users
   get 'chats/show'
   get 'rooms/create'
   get 'rooms/show'
@@ -7,7 +9,6 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root :to =>"homes#top"
-  devise_for :users
   get "home/about"=>"homes#about"
   get "search" => "searches#search"
   post "search_result" => "search_result#search"
@@ -27,6 +28,10 @@ Rails.application.routes.draw do
     resource :favorites, only: [:create, :destroy]
   
   end 
+  
+  devise_scope :user do
+    post 'users/guest_sign_in', to: 'users/sessions#guest_sign_in'
+  end
   
   resources :messages, only: [:create]
   resources :rooms, only: [:create,:show] 
